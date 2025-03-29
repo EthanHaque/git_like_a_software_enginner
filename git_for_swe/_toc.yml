@@ -6,3 +6,4 @@ root: intro
 chapters:
 - file: understanding_git
 - file: branching
+- file: merge_conflicts
