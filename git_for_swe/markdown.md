@@ -1,55 +1,82 @@
-# Markdown Files
+# Understanding Git: Foundational Design Principles
 
-Whether you write your book's content in Jupyter Notebooks (`.ipynb`) or
-in regular markdown files (`.md`), you'll write in the same flavor of markdown
-called **MyST Markdown**.
-This is a simple file to help you get started and show off some syntax.
+## Why Git Was Created
 
-## What is MyST?
+Git was created in 2005 by Linus Torvalds in response to the Linux kernel community's need for a reliable, efficient, and distributed version control system (VCS). Prior to Git, the community relied on BitKeeper, a proprietary VCS that was available to them under a special free license. This arrangement ended when the license was revoked, prompting the search for an alternative solution.
 
-MyST stands for "Markedly Structured Text". It
-is a slight variation on a flavor of markdown called "CommonMark" markdown,
-with small syntax extensions to allow you to write **roles** and **directives**
-in the Sphinx ecosystem.
+Torvalds evaluated existing open-source VCS options but found them lacking in critical areas such as performance, scalability, and support for distributed workflows. This led him to develop Git with specific design goals:
 
-For more about MyST, see [the MyST Markdown Overview](https://jupyterbook.org/content/myst.html).
 
-## Sample Roles and Directives
+### Core Objectives
+- **High Performance**: Git was engineered to handle large projects like the Linux kernel efficiently. Torvalds emphasized speed, aiming for operations take no more than a few seconds.
 
-Roles and directives are two of the most powerful tools in Jupyter Book. They
-are like functions, but written in a markup language. They both
-serve a similar purpose, but **roles are written in one line**, whereas
-**directives span many lines**. They both accept different kinds of inputs,
-and what they do with those inputs depends on the specific role or directive
-that is being called.
+- **Data Integrity**: Git employs cryptographic methods to protect the repository's history from both accidental corruption and malicious tampering.
 
-Here is a "note" directive:
+- **Distributed Development**: Git was designed to support distributed workflows. Each developer has a complete copy of the repository, allowing for independent work and reducing reliance on a central server.
 
-```{note}
-Here is a note
+- **Support for Non-Linear Development**: Git provides robust branching and merging capabilities, facilitating parallel development and simplifying the integration of changes from multiple contributors.
+
+Git is not the only VCS system available, but it is by far the most popular. See [Mercurial](https://en.wikipedia.org/wiki/Mercurial).
+
+## Key Concepts
+
+### Common Beginner Workflow: `git add`, `git commit`, `git push`
+
+Most developers are first introduced to Git through a simple three-step workflow:
+
+1. `git add`: Stages changes for commit.
+2. `git commit`: Records a snapshot of the staged changes.
+3. `git push`: Sends local commits to a remote repository.
+
+```bash
+git add .
+git commit -m "Your message here"
+git push
 ```
 
-It will be rendered in a special box when you build your book.
-
-Here is an inline directive to refer to a document: {doc}`markdown-notebooks`.
+To be honest, this workflow can get you very far. However, getting stuck here causes lots of unnecessary anguish as your version control needs become more complex.
 
 
-## Citations
+### The Staging Area (Index)
+Intermediate step between working directory and repository.
 
-You can also cite references that are stored in a `bibtex` file. For example,
-the following syntax: `` {cite}`holdgraf_evidence_2014` `` will render like
-this: {cite}`holdgraf_evidence_2014`.
+- Allows fine-grained control of what gets committed.
 
-Moreover, you can insert a bibliography into your page with this syntax:
-The `{bibliography}` directive must be used for all the `{cite}` roles to
-render properly.
-For example, if the references for your book are stored in `references.bib`,
-then the bibliography is inserted with:
-
-```{bibliography}
+```bash
+git add file1.txt
+git commit -m "feat: bump vesion"
 ```
 
-## Learn more
+### What Is a Git Commit?
 
-This is just a simple starter to get you started.
-You can learn a lot more at [jupyterbook.org](https://jupyterbook.org).
+A **commit** in Git creates a snapshot of the staged changes and permanently records them in the repository. Each commit becomes a node in your project's history graph.
+
+A commit stores:
+- A snapshot of the project's files
+- The author and timestamp
+- A message describing the change
+- A reference to its parent commit(s), forming a chain of history
+
+Each commit is identified by a unique SHA-1 hash, which is calculated from its content and metadata. This ensures integrity—any change to the commit changes its hash.
+
+#### How to Make a Commit
+
+After staging changes:
+
+```bash
+git commit -m "fix: change foo to bar"
+```
+
+This creates a new snapshot with a pointer to the current state and a link to its parent (the previous commit). Over time, these linked commits form a directed acyclic graph (DAG), representing your project's full history.
+
+#### Viewing Commit History
+
+Use `git log` to inspect commits:
+
+```bash
+git log
+```
+
+This shows hashes, authors, dates, and messages, helping you understand the evolution of the codebase.
+
+
