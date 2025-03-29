@@ -1,0 +1,46 @@
+name: deploy-book
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  deploy-book:
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r git_for_swe/requirements.txt
+
+      - name: Cache executed notebooks
+        uses: actions/cache@v4
+        with:
+          path: git_for_swe/_build/.jupyter_cache
+          key: jupyter-book-cache-${{ hashFiles('git_for_swe/requirements.txt') }}
+
+      - name: Build the book
+        run: |
+          cd git_for_swe
+          jupyter-book build .
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: "git_for_swe/_build/html"
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
