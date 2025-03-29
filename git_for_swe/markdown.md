@@ -57,7 +57,7 @@ A commit stores:
 - A message describing the change
 - A reference to its parent commit(s), forming a chain of history
 
-Each commit is identified by a unique SHA-1 hash, which is calculated from its content and metadata. This ensures integrity—any change to the commit changes its hash.
+Each commit is identified by a unique, 160-bit SHA-1 hash, which is calculated from its content and metadata. This ensures integrity—any change to the commit changes its hash.
 
 #### How to Make a Commit
 
