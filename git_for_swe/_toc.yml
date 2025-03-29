@@ -8,3 +8,6 @@ chapters:
 - file: conventional_commits
 - file: branching
 - file: merge_conflicts
+- file: pull_requests
+- file: branching_strategies
+- file: bonus_tips
