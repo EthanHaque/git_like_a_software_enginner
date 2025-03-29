@@ -1,4 +1,4 @@
-# Git Branching: A User's Guide
+# A User's Guide to Branching
 
 ## Introduction to Branching in Git
 
